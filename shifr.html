@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+	div{
+		width:500px;
+		margin: auto;
+	}
+</style>
+	<title>Cipher</title>
+</head>
+<body>
+<div>
+	<h1>ParryCipher</h1>
+	<p>Input source text</p>
+	<div>
+		<textarea id="shifr-text"></textarea>
+	</div>
+	<div>
+		<span>Shift </span>
+		<select id="select"></select>
+	</div>
+
+	<br/>
+	<button id="shifr-button">Encrypt</button>
+	<button id="rashifr-button">Decipher</button>
+	<button id="posible-button">Possible transcripts</button>
+	<p> Here's your result: </p>
+	<p id="output-text"></p>
+	<ul id="list">
+
+	</ul>
+	
+</div>
+<script type="text/javascript">
+var alphabet = " абв123гдеёжт456789уфхцычщшьъэюяЙЦУКЕНГШЩЗХФЫВАПiopasзи.йклмнопрсdfghjk,РОЛДЖМСЧЯЁqwertyu?lzxcvbnmQWERTYU!IOPASЭ@ЮБЬТИDF%GHJKLZXCVBNM".split("");
+function shifr (sourceText, n){
+	var letters = sourceText.split("");
+	var outputText = [];
+
+	for (var i=0; i < letters.length; i++){
+		for (var j = 0; j < alphabet.length; j++) {
+			if (letters[i] == alphabet[j]) {
+				var letter = alphabet[(j+n)%alphabet.length];
+				outputText.push(letter);
+			}
+		}
+	}
+
+	var output = outputText.join("");
+	return output;
+}
+var output = document.getElementById("output-text");
+var button = document.getElementById("shifr-button");
+var rasbutton = document.getElementById("rashifr-button");
+var textArea = document.getElementById("shifr-text");
+var posbutton = document.getElementById("posible-button");
+button.addEventListener ("click", function (event){
+	var shift = select.value;
+	var shiftNumber = parseInt(shift);
+	output.innerHTML = shifr(textArea.value,shiftNumber);
+
+})
+rasbutton.addEventListener("click", function (event){ 
+	var shift = select.value;
+	var shiftNumber = parseInt(shift);
+	output.innerHTML = shifr(textArea.value, alphabet.length - shiftNumber);
+})
+var posibles="";
+posbutton.addEventListener("click", function(event){
+	for (var i=1;i<alphabet.length+1;i++){
+		var posible = "<li>" + shifr(textArea.value, i) 
+		posibles+=posible;
+	}
+	output.innerHTML = posibles;
+})
+var select = document.getElementById("select")
+var options="";
+for (var i=1; i<alphabet.length+1; i++){
+	var option = "<option value=" + i + ">" + i + "</option>"; 
+	options+=option;
+}
+select.innerHTML = options;
+
+
+</script>
+
+</body>
+</html>
